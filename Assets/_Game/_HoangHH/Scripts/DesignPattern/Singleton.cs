@@ -21,6 +21,10 @@ namespace HoangHH.DesignPattern
     public class Singleton<T> : HMonoBehaviour where T : HMonoBehaviour
     {
         /// <summary>
+        ///   If set to <c>true</c> the GameObject that holds the singleton will not be destroyed when a new scene is loaded.
+        /// </summary>
+        [SerializeField] private bool isDestroyOnLoad;
+        /// <summary>
         ///     <c>true</c> if this Singleton Awake() method has already been called by Unity; otherwise, <c>false</c>.
         /// </summary>
         public static bool IsAwakened { get; private set; }
@@ -147,7 +151,7 @@ namespace HoangHH.DesignPattern
             if (_instance == null)
             {
                 _instance = thisInstance;
-                DontDestroyOnLoad(_instance.gameObject);
+                if (!isDestroyOnLoad) DontDestroyOnLoad(_instance.gameObject);
 
             }
 
@@ -168,7 +172,7 @@ namespace HoangHH.DesignPattern
                 PrintLog(string.Format(
                     "Awake() Singleton with type {0} in the GameObject {1}",
                     GetType(), gameObject.name));
-
+                if (!isDestroyOnLoad) DontDestroyOnLoad(gameObject);
                 SingletonAwakened();
                 IsAwakened = true;
             }
