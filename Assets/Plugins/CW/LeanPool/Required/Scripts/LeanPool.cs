@@ -100,7 +100,7 @@ namespace Lean.Pool
 						// This shouldn't happen
 						else
 						{
-							Debug.LogWarning("You're attempting to spawn a clone that hasn't been despawned. Make sure all your Spawn and Despawn calls match, you shouldn't be manually destroying them!", clone);
+							Debug.LogWarning("You're attempting to spawn a clone that hasn't been de-spawned. Make sure all your Spawn and Despawn calls match, you shouldn't be manually destroying them!", clone);
 						}
 					}
 

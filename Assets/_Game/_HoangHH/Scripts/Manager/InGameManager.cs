@@ -16,6 +16,8 @@ namespace HoangHH.Manager
     public class InGameManager : Singleton<InGameManager>
     {
         private Level _currentLevel;
+        private GameGrid _gameGrid;
+        public GameGrid GameGrid => _gameGrid;
 
         private void Update()
         {
@@ -29,11 +31,15 @@ namespace HoangHH.Manager
         protected override void SingletonStarted()
         {
             // Create new GameGrid
-            GameGrid gameGrid = new(10, 10, 1, default, () => new GameGridCell(), GridPlane.XZ);
+            _gameGrid = new(5, 5, 1, default, () => new GameGridCell(), GridPlane.XZ);
             // Log
-            HLog.Log(DevID.Hoang, "GameGrid created with size: " + gameGrid.Width + "x" + gameGrid.Height + " and cell size: " + gameGrid.CellSize);
+            HLog.Log(DevID.Hoang, "GameGrid created with size: " + _gameGrid.Width + "x" + _gameGrid.Height + " and cell size: " + _gameGrid.CellSize);
             // Create Sphere Object at each cell position
-            Timing.RunCoroutine(TestSpawnBoard(gameGrid, 3f, () => TestSpawnPlayer(gameGrid, 5, 5)));
+            Timing.RunCoroutine(TestSpawnBoard(_gameGrid, 3f, () =>
+            {
+                TestSpawnPlayer(_gameGrid, 2, 2);
+                TestSpawnPlayer(_gameGrid, 3, 3);
+            }));
         }
 
         private static void TestSpawnPlayer(GameGrid gameGrid, int x, int y)
@@ -46,7 +52,7 @@ namespace HoangHH.Manager
                 // Spawn the player
                 IPlayer p = DataManager.Instance.SpawnData<IPlayer, PlayerType>(DataType.Player, PlayerType.Normal, worldPos);
                 // Add the player to the cell
-                gameGrid.GridArray[x, y].AddCharacter(p as BCharacter);
+                // p.OnInit(gameGrid.GridArray[x, y]); 
             }
             else
             {

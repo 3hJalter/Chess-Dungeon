@@ -2,7 +2,7 @@
 
 namespace HoangHH.InGame.Character.Base
 {
-    public interface IPlayer
+    public interface IPlayer : ICharacter
     {
         void Move();
     }

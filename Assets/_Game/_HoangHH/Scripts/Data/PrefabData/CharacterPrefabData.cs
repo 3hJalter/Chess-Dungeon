@@ -37,18 +37,18 @@ namespace HoangHH.Data.PrefabData
             return _enemies[type];
         }
         
-        public IPlayer SpawnPlayer(PlayerType type, Vector3 position, Quaternion rotation, Transform parent)
+        public ICharacter SpawnPlayer(PlayerType type, Vector3 position, Quaternion rotation, Transform parent)
         {
             // Try getting the player from dictionary
-            if (_players.TryGetValue(type, out IPlayer player)) return (IPlayer) LeanPool.Spawn((BCharacter) player, position, rotation, parent);
+            if (_players.TryGetValue(type, out IPlayer player)) return LeanPool.Spawn((BCharacter) player, position, rotation, parent);
             HLog.Log(DevID.Hoang, $"Player type {type} not found");
             return null;
         }
         
-        public IEnemy SpawnEnemy(EnemyType type, Vector3 position, Quaternion rotation, Transform parent)
+        public ICharacter SpawnEnemy(EnemyType type, Vector3 position, Quaternion rotation, Transform parent)
         {
             // Try getting the enemy from dictionary
-            if (_enemies.TryGetValue(type, out IEnemy enemy)) return (IEnemy) LeanPool.Spawn((BCharacter) enemy, position, rotation, parent);
+            if (_enemies.TryGetValue(type, out IEnemy enemy)) return LeanPool.Spawn((BCharacter) enemy, position, rotation, parent);
             HLog.Log(DevID.Hoang, $"Enemy type {type} not found");
             return null;
         }
